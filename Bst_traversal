@@ -1,0 +1,82 @@
+/*
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+
+
+ 
+class Solution {
+public:
+
+// PostOreder (the reverse of preOrder)
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> s,output_r;
+        TreeNode* cur=root;
+        while(cur || !s.empty()){
+            while(cur){
+                s.push(cur);
+                output_r.push(cur);
+                cur=cur->right;
+            }
+            cur=s.top();
+            s.pop();
+            cur=cur->left;
+        }
+        while(!output_r.empty()){
+            result.push_back((output_r.top())->val);
+            output_r.pop();
+        }
+        return result;
+    }
+
+
+//PreOrder
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> output;
+        stack<TreeNode*> s;
+        TreeNode* cur=root;
+       
+        while(!s.empty() || cur){
+           while(cur){
+               s.push(cur);
+               output.push_back(cur->val);
+               cur=cur->left;
+           }
+            cur=s.top();
+            s.pop();
+            cur=cur->right;
+        }
+        return output;
+    }
+
+
+//InOrder
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> output;
+        stack<TreeNode*> s;
+        TreeNode* cur=root;
+        while(cur || !s.empty()){
+            while(cur){
+                s.push(cur);
+                cur=cur->left;
+            }
+            cur=s.top();
+            output.push_back(s.top()->val);
+            s.pop();
+            cur=cur->right;
+        }
+        
+        return output;
+    }
+
+};
+
+
