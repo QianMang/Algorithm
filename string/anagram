@@ -1,0 +1,52 @@
+//计数，anagram，leetCode242
+//比较两个字符串是不是anagram
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        int letter1[26]={0};
+        int letter2[26]={0};
+        if(s.size()!=t.size())
+            return false;
+        for(size_t i=0;i<s.size();++i){
+            ++letter1[s[i]-'a'];
+            ++letter2[t[i]-'a'];
+        }
+        for(int i=0;i<26;++i){
+            if(letter1[i]!=letter2[i]){
+                return false;
+            }
+        }
+        return true;
+        
+    }
+};
+
+
+//leetCode 49
+//string , hashmap, 也是计数算法， O(nk)
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string,vector<string>> anagram;
+        
+        
+        for(auto it=strs.cbegin();it!=strs.cend();++it){
+            int letters[26]={0};
+            for(size_t i=0;i<(*it).size();++i){
+                ++letters[(*it)[i]-'a'];
+            }
+            string word="";
+            for(size_t i=0;i<26;++i){
+                
+                word+=string(letters[i],'a'+i);
+            }
+            anagram[word].push_back(*it);
+        }
+        for(auto it=anagram.cbegin();it!=anagram.cend();++it){
+            result.push_back((*it).second);
+        }
+        return result;
+    }
+};
