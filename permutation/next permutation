@@ -1,0 +1,35 @@
+// next permutation
+// 
+
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        vector<int>::iterator index;
+        if(nums.size()==1 || nums.size()==0){
+            return;
+        }
+        for(auto it=nums.end()-1;it>nums.begin();it--){
+            if(*it>*(it-1)){
+                index=it-1;
+                break;
+            }
+            if(it==nums.begin()+1){
+                reverse(nums.begin(),nums.end());
+                return;
+            }
+        }
+        vector<int>::iterator index2;
+        for(auto it=index+1;it<nums.end();it++){
+            if(*it<=*index ){
+                index2=it-1;
+                break;
+            }
+            if(it==nums.end()-1){
+                index2=it;
+                break;
+            }
+        }
+        swap(*index,*index2);
+        reverse(index+1,nums.end());
+    }
+};
