@@ -115,3 +115,72 @@ private:
     list<int> rank;
     int _capacity;
 };
+
+//reverse link list
+class Solution {
+public:
+    //Iteratively
+    ListNode* reverseList(ListNode* head) {
+        if(head == nullptr || head -> next == nullptr) return head;
+        
+        ListNode* preNode = nullptr;
+        ListNode* curNode = head;
+        ListNode* newHead = nullptr;
+        while(curNode){
+            if(curNode->next == nullptr){
+                newHead = curNode;
+                
+            }
+            ListNode* nextNode = curNode->next;
+            curNode->next = preNode;
+            
+            preNode = curNode;
+            curNode = nextNode;
+        }
+        return newHead;
+    }
+    
+    //recursively
+    ListNode* reverseList(ListNode* head) {
+        if(!head || !head->next)return head;
+        ListNode* p = reverseList(head->next);
+        head->next->next = head;
+        head->next=nullptr;
+        return p;
+    }
+    
+};
+
+
+//topK problem,  heap
+class Solution {
+public:
+    struct cmp{
+        bool operator()(pair<int,int>& a,pair<int,int>& b){
+            return a.second > b.second;
+        }  
+    };
+    
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int,int> count;
+        vector<int> result;
+        priority_queue<pair<int,int>, vector<pair<int,int>>, cmp> minHeap;
+        
+        for(auto num:nums){
+            count[num]++;
+        }
+        
+        for(auto it = count.begin(); it != count.end();++it){
+            minHeap.push(*it);
+            if(minHeap.size() > k){
+                minHeap.pop();
+            }
+        }
+        
+        while(!minHeap.empty()){
+            result.push_back(minHeap.top().first);
+            minHeap.pop();
+        }
+        return result;        
+    }
+};
